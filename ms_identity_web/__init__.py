@@ -284,10 +284,8 @@ class IdentityWebPython(object):
             if not self._adapter.identity_context_data.authenticated:
                 raise NotAuthenticatedError
             
-            allroles=self._adapter.identity_context_data._id_token_claims['roles']
-            
             for role in ["CoAnalyst.Standard.Access"]:
-                if role not in allroles:
+                if role not in self._adapter.identity_context_data._id_token_claims.get('roles', ''):
                     raise NotAuthenticatedError
             # TODO: check if ID token is expired
             # if it is, take user to get re-authenticated.
