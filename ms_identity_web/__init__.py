@@ -283,6 +283,12 @@ class IdentityWebPython(object):
         def assert_login(*args, **kwargs):
             if not self._adapter.identity_context_data.authenticated:
                 raise NotAuthenticatedError
+            
+            allroles=self._adapter.identity_context_data._id_token_claims['roles']
+            
+            for role in ["CoAnalyst.Standard.Access"]:
+                if role not in allroles:
+                    raise NotAuthenticatedError
             # TODO: check if ID token is expired
             # if it is, take user to get re-authenticated.
             # TODO: upon returning from re-auth, user should get back to
